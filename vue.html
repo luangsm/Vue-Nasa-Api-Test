@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="Pt-Br">
+    <head>
+        <!-- Responsive + Encoding Meta Tag -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Stylesheet -->
+        <link href = "styles.css" rel = "stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Nasa API</title>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div id="app-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-10 mt-5 text-center">
+                        <h3>Preencha com uma data no formato YYYY-MM-DD</h3>
+                        <input v-model="message"></br>
+                        <button type="button" class="mt-2 btn btn-secondary" v-on:click="showInfo">Ver Resultado</button>
+                    </div>
+                </div>
+                <div v-if="imgSrc" class="row justify-content-center">
+                    <div class="col-10 mt-5 text-center">
+                        <p>{{ imgExplanation }}</p>
+                        <img :src="imgSrc" height="500" width="800">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var app5 = new Vue({
+                el: '#app-5',
+                data: {
+                  message: '',
+                  imgSrc: '',
+                  imgExplanation: '',
+                },
+                methods: {
+                  showInfo: function () {
+                    var nasaApiKey = 'x2aFhdC6yMxUYR7LDLh6P0jTzIXPc9j3Z9VIp0gZ';
+                    var date = this.message;
+                    var url = 'https://api.nasa.gov/planetary/apod?api_key=' + nasaApiKey + '&date=' + date;
+                    
+                    axios.get(url).then(function (response) {
+                        app5.imgSrc = response.data.url;
+                        app5.imgExplanation = response.data.explanation;
+                    })
+                  }
+                }
+              })
+        </script>
+    </body>
+</html>
